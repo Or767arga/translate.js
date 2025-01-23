@@ -1,0 +1,38 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Hebrew:wght@100..900&display=swap');
+
+/* Basic Styling */
+body {
+  background-color: #FFFFFF;
+  font-family: 'Noto Sans Hebrew', sans-serif;
+  direction: rtl; /* Set direction to Right-to-Left (RTL) */
+}
+
+/* Specific Adjustments for Widgets */
+.widgets-time-slot {
+  direction: ltr; /* Keep time slots in Left-to-Right (LTR) */
+}
+
+.appointment_widgets--revamp--info .widgets--service-description > p {
+  font-size: large;
+}
+
+.appointment_widgets--revamp--service-info {
+  margin-bottom: 20px !important;
+}
+
+.widgets-timezone-picker > div {
+  display: none;
+}
+
+.provider-name {
+  display: none;
+}
+
+.appointment_widgets--revamp--neo-calendar-logo {
+  height: 70% !important;
+  width: 50% !important;
+}
+
+.vdpHeader > div {
+  direction: ltr;
+}
