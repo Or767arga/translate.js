@@ -1,0 +1,170 @@
+// Translation Dictionary
+const replacementDictionary = {
+  // Form Fields
+  'Email': 'אימייל',
+  'First Name': 'שם פרטי',
+  'Last Name': 'שם משפחה',
+  'Phone Number': 'מספר טלפון',
+  'Submit': 'שלח',
+  'Cancel': 'בטל',
+  'Address': 'כתובת',
+  'City': 'עיר',
+  'State': 'מדינה',
+  'ZIP Code': 'מיקוד',
+  'Country': 'מדינה',
+  'Company': 'חברה',
+  'Notes': 'הערות',
+  'Message': 'הודעה',
+
+  // Appointments and Calendar
+  'Book Appointment': 'קבע פגישה',
+  'Select Date & Time': 'בחרו תאריך ושעה',
+  'Scheduled': 'מתוזמן',
+  'Reschedule': 'שנה תזמון',
+  'Duration': 'משך',
+  'Mins': 'דקות',
+  'Hours': 'שעות',
+  'Available': 'זמין',
+  'Unavailable': 'לא זמין',
+  'Confirm': 'אשר',
+  'Appointment': 'פגישה',
+  'Time Slot': 'חלון זמן',
+  'Time Zone': 'אזור זמן',
+
+  // Days and Months
+  'Sun': 'ראשון',
+  'Mon': 'שני',
+  'Tue': 'שלישי',
+  'Wed': 'רביעי',
+  'Thu': 'חמישי',
+  'Fri': 'שישי',
+  'Sat': 'שבת',
+  'January': 'ינואר',
+  'February': 'פברואר',
+  'March': 'מרץ',
+  'April': 'אפריל',
+  'May': 'מאי',
+  'June': 'יוני',
+  'July': 'יולי',
+  'August': 'אוגוסט',
+  'September': 'ספטמבר',
+  'October': 'אוקטובר',
+  'November': 'נובמבר',
+  'December': 'דצמבר',
+
+  // Error Messages
+  'Required Field': 'שדה חובה',
+  'Invalid Email': 'אימייל לא חוקי',
+  'Error': 'שגיאה',
+  'Loading': 'טוען',
+  'Success': 'הצלחה',
+  'Thank You': 'תודה',
+  'Please Wait': 'אנא המתן',
+
+  // Payment and Pricing
+  'Total': 'סה"כ',
+  'Discount': 'הנחה',
+  'Price': 'מחיר',
+  'Tax': 'מס',
+  'Payment': 'תשלום',
+  'Card Number': 'מספר כרטיס',
+  'Expiration Date': 'תוקף',
+  'CVV': 'קוד אבטחה',
+  'Pay Now': 'שלם עכשיו',
+
+  // General Terms
+  'Yes': 'כן',
+  'No': 'לא',
+  'OK': 'אוקיי',
+  'Back': 'חזור',
+  'Next': 'הבא',
+  'Previous': 'הקודם',
+  'Start': 'התחל',
+  'End': 'סיום',
+  'Edit': 'ערוך',
+  'Delete': 'מחק',
+  'Save': 'שמור',
+  'Close': 'סגור',
+  'View': 'צפה',
+  'Details': 'פרטים',
+  'Contact': 'צור קשר',
+  'Search': 'חיפוש',
+  'Filter': 'סינון',
+  'Settings': 'הגדרות',
+  'Help': 'עזרה',
+  'Dashboard': 'לוח מחוונים',
+  'Analytics': 'אנליטיקה',
+  'Reports': 'דוחות',
+  'Leads': 'לידים',
+  'Campaigns': 'קמפיינים',
+  'Automation': 'אוטומציה',
+  'Templates': 'תבניות',
+  'Notifications': 'התראות',
+  'Integrations': 'אינטגרציות',
+  'Logout': 'התנתק',
+
+  // Statuses
+  'Active': 'פעיל',
+  'Inactive': 'לא פעיל',
+  'Pending': 'בהמתנה',
+  'Completed': 'הושלם',
+  'Failed': 'נכשל',
+  'Processing': 'מעבד',
+  'Draft': 'טיוטה',
+
+  // Workflow and Processes
+  'Follow-Up': 'מעקב',
+  'Reminder': 'תזכורת',
+  'Task': 'משימה',
+  'Event': 'אירוע',
+  'Workflow': 'תהליך עבודה',
+  'Status': 'סטטוס',
+};
+
+// Function to Replace Words in Text Nodes
+function replaceWords(node) {
+  if (node.nodeType === Node.TEXT_NODE) {
+    let content = node.textContent;
+    for (const [original, replacement] of Object.entries(replacementDictionary)) {
+      const regex = new RegExp('\\b' + original + '\\b', 'gi');
+      content = content.replace(regex, replacement);
+    }
+    node.textContent = content;
+  } else {
+    for (const childNode of node.childNodes) {
+      replaceWords(childNode);
+    }
+  }
+}
+
+// Start the Replacement Process
+function startReplacement() {
+  replaceWords(document.body);
+}
+
+// Create MutationObserver to Monitor DOM Changes
+const observer = new MutationObserver((mutations) => {
+  mutations.forEach((mutation) => {
+    if (mutation.type === 'childList') {
+      mutation.addedNodes.forEach(replaceWords);
+    } else if (mutation.type === 'characterData') {
+      replaceWords(mutation.target);
+    }
+  });
+});
+
+// Observer Configuration
+const config = {
+  childList: true,
+  subtree: true,
+  characterData: true,
+};
+
+// Start Observing Changes After Page Load
+observer.observe(document.body, config);
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', startReplacement);
+} else {
+  startReplacement();
+}
